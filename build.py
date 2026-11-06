@@ -1,4 +1,3 @@
-"""Подготовка статического сайта к выпуску без сторонних зависимостей."""
 import json
 import os
 from pathlib import Path
