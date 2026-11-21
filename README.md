@@ -49,3 +49,19 @@
 **Обычные команды выполняются из корня вашей копии репозитория.** Команды внутри Linux-контейнера явно отмечены. Не устанавливайте ПО на компьютеры кабинета самостоятельно. Если Docker недоступен, сообщите преподавателю.
 
 Преподавателю: [подготовка кабинета](teacher/PREFLIGHT.md), [план курса](teacher/PROGRAM_MAP.md), [отчёт о проверке](teacher/VALIDATION.md).
+
+## Мой результат
+
+Рабочая копия KT4 запускается так:
+
+```text
+docker compose -f compose.student.yaml build api web tools ansible
+docker compose -f compose.student.yaml up -d
+docker compose -f compose.student.yaml --profile monitoring up -d
+```
+
+`compose.student.yaml` использует образ `devops-student:local`, открывает web на `http://localhost:8080`, сохраняет заявки и banner в Docker volume `requests`, а API доступен web внутри сети Compose по имени `api:8000`. Мониторинг запускает Prometheus на `localhost:9090` и Grafana на `localhost:3000`; Grafana dashboard и его экспорт описаны в [K4-02](evidence/K4-02.md).
+
+Ansible запускается без SSH: `localhost` и `connection: local` работают внутри временного контейнера, а общий volume предоставляет `/data`. Playbook [banner.yml](ansible/banner.yml) управляет `/data/banner.txt`, правами `0644` и владельцем/группой `10001`.
+
+Цепочка результата: исходники → unittest → образ → сервисы Compose → Prometheus/Grafana сигнал → остановка API → HTTP 503 и `up=0` → восстановление API → сохранение старой заявки и создание новой. Подтверждения: [K4-01](evidence/K4-01.md), [K4-02](evidence/K4-02.md), [K4-03](evidence/K4-03.md), [K4-04](evidence/K4-04.md), [K4-05](evidence/K4-05.md). CI workflow находится в [.github/workflows/student-ci.yml](.github/workflows/student-ci.yml), а ссылки на предыдущие Actions runs — в [K3-05](evidence/K3-05.md).

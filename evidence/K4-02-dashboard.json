@@ -1,0 +1,110 @@
+﻿{
+    "meta":  {
+                 "type":  "db",
+                 "canSave":  true,
+                 "canEdit":  true,
+                 "canAdmin":  false,
+                 "canStar":  false,
+                 "canDelete":  true,
+                 "slug":  "workshop-http-requests",
+                 "url":  "/d/kt4-workshop/workshop-http-requests",
+                 "expires":  "0001-01-01T00:00:00Z",
+                 "created":  "2026-11-21T14:54:15Z",
+                 "updated":  "2026-11-21T14:54:15Z",
+                 "updatedBy":  "Anonymous",
+                 "createdBy":  "Anonymous",
+                 "version":  1,
+                 "hasAcl":  false,
+                 "isFolder":  false,
+                 "apiVersion":  "v0alpha1",
+                 "folderId":  0,
+                 "folderUid":  "",
+                 "folderTitle":  "General",
+                 "folderUrl":  "",
+                 "provisioned":  false,
+                 "provisionedExternalId":  "",
+                 "annotationsPermissions":  {
+                                                "dashboard":  {
+                                                                  "canAdd":  true,
+                                                                  "canEdit":  true,
+                                                                  "canDelete":  true
+                                                              }
+                                            }
+             },
+    "dashboard":  {
+                      "id":  2959004883398656,
+                      "panels":  [
+                                     {
+                                         "datasource":  {
+                                                            "type":  "prometheus",
+                                                            "uid":  "workshop-prometheus"
+                                                        },
+                                         "fieldConfig":  {
+                                                             "defaults":  {
+                                                                              "unit":  "short"
+                                                                          },
+                                                             "overrides":  [
+
+                                                                           ]
+                                                         },
+                                         "gridPos":  {
+                                                         "h":  8,
+                                                         "w":  12,
+                                                         "x":  0,
+                                                         "y":  0
+                                                     },
+                                         "id":  1,
+                                         "targets":  [
+                                                         {
+                                                             "expr":  "devops_http_requests_total{role=\"web\",status=\"200\"}",
+                                                             "legendFormat":  "successful requests",
+                                                             "refId":  "A"
+                                                         }
+                                                     ],
+                                         "title":  "Successful web requests (counter)",
+                                         "type":  "timeseries"
+                                     },
+                                     {
+                                         "datasource":  {
+                                                            "type":  "prometheus",
+                                                            "uid":  "workshop-prometheus"
+                                                        },
+                                         "fieldConfig":  {
+                                                             "defaults":  {
+                                                                              "decimals":  3,
+                                                                              "unit":  "reqps"
+                                                                          },
+                                                             "overrides":  [
+
+                                                                           ]
+                                                         },
+                                         "gridPos":  {
+                                                         "h":  8,
+                                                         "w":  12,
+                                                         "x":  12,
+                                                         "y":  0
+                                                     },
+                                         "id":  2,
+                                         "targets":  [
+                                                         {
+                                                             "expr":  "rate(devops_http_requests_total{role=\"web\",status=\"200\"}[1m])",
+                                                             "legendFormat":  "requests/sec",
+                                                             "refId":  "A"
+                                                         }
+                                                     ],
+                                         "title":  "Successful web request rate",
+                                         "type":  "timeseries"
+                                     }
+                                 ],
+                      "refresh":  "5s",
+                      "schemaVersion":  39,
+                      "tags":  [
+                                   "devops",
+                                   "kt4"
+                               ],
+                      "timezone":  "browser",
+                      "title":  "Workshop HTTP Requests",
+                      "uid":  "kt4-workshop",
+                      "version":  1
+                  }
+}
